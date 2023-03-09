@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
@@ -12,9 +12,9 @@ root.render(
   <GoogleOAuthProvider 
   clientId="55819201231-au4cltc80o85fl4lb3p51g7c8ekc0lru.apps.googleusercontent.com">
     <React.StrictMode>
-      <BrowserRouter>
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </React.StrictMode>
   </GoogleOAuthProvider>,
 

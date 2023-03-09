@@ -3,10 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 
-export const Character = () => {
-  let input = localStorage.getItem('inputValue') || '';
-  let page = localStorage.getItem('page') || 1;
-
+export const Character = ({ fetchData }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [character, setCharacter] = useState({});
@@ -14,17 +11,9 @@ export const Character = () => {
   const characteristics = ['gender', 'status', 'species', 'origin', 'type'];
 
   useEffect(() => {
-
     const getCharacter = async () => {
-      try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
-        if (response.status === 200) {
-          const result = await response.json();
-          setCharacter(result)
-        }
-      } catch (error) {
-
-      }
+      const data = await fetchData(`https://rickandmortyapi.com/api/character/${id}`)
+      setCharacter(data)
     }
     getCharacter()
   }, [])
@@ -33,8 +22,7 @@ export const Character = () => {
     <div
       className="back"
       onClick={() => {
-        navigate(`/characters?page=${page}&name=${input}`)
-        // navigate(-1)
+        navigate(-1)
       }}>
       <img src="/img/arrow-back.svg" alt="arrow-back" className='arrow' />
       go back
@@ -65,7 +53,7 @@ export const Character = () => {
                       </h4>
                       <p>
                         {
-                          char !== 'origin' ? character[char] : character[char].name
+                          char !== 'origin' ? character[char] || 'Unknown' : character[char].name
                         }
                       </p>
                     </li>

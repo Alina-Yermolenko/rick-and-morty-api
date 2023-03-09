@@ -1,10 +1,10 @@
 import './CharactersPage.css';
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { Pagination } from '../Pagination/Pagination';
 
-export const CharactersPage = () => {
+export const CharactersPage = ({ fetchData, responseDiv }) => {
   const input = localStorage.getItem('inputValue') || '';
   const [characters, setCharacters] = useState([]);
   const [pages, setPages] = useState(0);
@@ -21,24 +21,21 @@ export const CharactersPage = () => {
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      try {
-        const response = await fetch(`https://rickandmortyapi.com/api/character${search}&name=${inputValue}`);
-
-        if (response.status === 200) {
-          const result = await response.json();
-          setCharacters(result.results)
-          setPages(result.info.pages)
-        }
-
-      } catch (error) {
-        throw new Error(error);
+      const data = await fetchData(`https://rickandmortyapi.com/api/character${search}${inputValue && `&name=${inputValue}`}`)
+      if (!data) {
+        setCharacters([]);
+        setPages(0);
+        return;
       }
+
+      setCharacters(data.results)
+      setPages(data.info.pages)
     }
 
     fetchCharacters()
   }, []);
 
-  
+
   characters && characters.sort((a, b) => {
     return a.name.localeCompare(b.name)
   });
@@ -50,26 +47,20 @@ export const CharactersPage = () => {
 
   const getInputValue = async (e) => {
     setInputValue(e.target.value);
-    try {
-      const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${e.target.value}`,)
-      if (response.status === 200) {
-        const result = await response.json();
-        setCharacters(result.results)
-        setPages(result.info.pages)
-      } else {
-        setCharacters([])
-        setPages(0)
-      }
-    } catch (error) {
 
-      throw new Error(error)
+    const data = await fetchData(`https://rickandmortyapi.com/api/character/?name=${e.target.value}`);
+    if (!data) {
+      setCharacters([]);
+      setPages(0);
+      return;
     }
+    setCharacters(data.results)
+    setPages(data.info.pages)
   }
 
   const setFilter = () => {
     localStorage.setItem('inputValue', inputValue);
-
-    window.history.replaceState(null, "", `/characters?page=1${inputValue && `&name=${inputValue}`}`);
+    window.history.replaceState(null, '', `#/characters?page=1${inputValue && `&name=${inputValue}`}`);
   }
 
   return (
@@ -78,15 +69,15 @@ export const CharactersPage = () => {
         <h2>Google Login</h2>
         <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
       </div>
-      <div className="characters">
+      <div className='characters'>
         <div className='characters__logo'>
-          <img src="/img/mainLogo.png"
-            alt="logo" />
+          <img src='/img/mainLogo.png'
+            alt='logo' />
         </div>
         <div className='characters__filter'>
           <label>
             <input
-              type="text"
+              type='text'
               value={inputValue}
               className='characters__input'
               placeholder='Filter by name...'
@@ -95,17 +86,17 @@ export const CharactersPage = () => {
           </label>
           {inputValue && `Searched by: ${inputValue}`}
         </div>
-        <ul className="characters__list">
+        <ul className='characters__list'>
           {characters && characters.map((character) => {
             return (
               <li
                 key={character.id}
-                className="characters__item"
+                className='characters__item'
                 onClick={() => { clickOnCharacter(character) }}
               >
                 <div
-                  className="characters__image"
-                  style={{ 'backgroundImage': `url("${character.image}")` }} />
+                  className='characters__image'
+                  style={{ 'backgroundImage': `url('${character.image}')` }} />
                 <div className='characters__text'>
                   <h3>{character.name}</h3>
                   <div className='characters__text-species'>{character.species}</div>
@@ -113,7 +104,12 @@ export const CharactersPage = () => {
               </li>);
           })}
         </ul>
+        {responseDiv && <div>{responseDiv}</div>
+        }
         <Pagination
+          fetchData={fetchData}
+          setCharacters={setCharacters}
+          setPages={setPages}
           inputValue={inputValue}
           pages={pages}
         />
