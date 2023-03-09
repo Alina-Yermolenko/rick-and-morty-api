@@ -71,7 +71,7 @@ export const CharactersPage = ({ fetchData, responseDiv }) => {
       </div>
       <div className='characters'>
         <div className='characters__logo'>
-          <img src='/img/mainLogo.png'
+          <img src='img/mainLogo.png'
             alt='logo' />
         </div>
         <div className='characters__filter'>

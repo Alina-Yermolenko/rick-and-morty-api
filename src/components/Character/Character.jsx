@@ -24,7 +24,7 @@ export const Character = ({ fetchData }) => {
       onClick={() => {
         navigate(-1)
       }}>
-      <img src="/img/arrow-back.svg" alt="arrow-back" className='arrow' />
+      <img src="img/arrow-back.svg" alt="arrow-back" className='arrow' />
       go back
     </div>
     {character && character.name && (
