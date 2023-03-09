@@ -1,8 +1,7 @@
 import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { CharactersPage } from './components/CharactersPage/CharactersPage.jsx';
-import { useState } from 'react';
-import { Character } from './components/CharactersPage/Character/Character';
+import { Character } from './components/Character/Character';
 
 function App() {
   return (

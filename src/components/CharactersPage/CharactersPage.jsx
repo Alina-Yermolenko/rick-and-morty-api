@@ -2,7 +2,7 @@ import './CharactersPage.css';
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
-import { Pagination } from './Pagination/Pagination';
+import { Pagination } from '../Pagination/Pagination';
 
 export const CharactersPage = () => {
   const input = localStorage.getItem('inputValue') || '';
@@ -16,7 +16,7 @@ export const CharactersPage = () => {
     console.log(response);
   };
   const errorMessage = (error) => {
-    console.log(error);
+    throw new Error(error);
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const CharactersPage = () => {
         }
 
       } catch (error) {
-        console.log(error)
+        throw new Error(error);
       }
     }
 
@@ -50,7 +50,6 @@ export const CharactersPage = () => {
 
   const getInputValue = async (e) => {
     setInputValue(e.target.value);
-    console.log(e.target.value)
     try {
       const response = await fetch(`https://rickandmortyapi.com/api/character/?name=${e.target.value}`,)
       if (response.status === 200) {

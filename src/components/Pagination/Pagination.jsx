@@ -5,7 +5,6 @@ export const Pagination = ({inputValue, pages}) => {
   const { search } = useLocation();
 
   const currentPage = search.includes('name') ? search.split('=')[1].slice(0,1) :  search.split('page=')[1];
-  console.log(search.split('=')[1].slice(0,1))
 
   const clickOnPage = (index) => {
     window.history.replaceState(null, "", `/characters/?page=${index + 1}${inputValue && `&name=${inputValue}`}`);

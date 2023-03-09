@@ -9,7 +9,9 @@ export const Character = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const [character, setCharacter] = useState({})
+  const [character, setCharacter] = useState({});
+
+  const characteristics = ['gender', 'status', 'species', 'origin', 'type'];
 
   useEffect(() => {
 
@@ -18,7 +20,6 @@ export const Character = () => {
         const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
         if (response.status === 200) {
           const result = await response.json();
-          console.log(result)
           setCharacter(result)
         }
       } catch (error) {
@@ -35,7 +36,7 @@ export const Character = () => {
         navigate(`/characters?page=${page}&name=${input}`)
         // navigate(-1)
       }}>
-        <img src="/img/arrow-back.svg" alt="arrow-back" className='arrow' />
+      <img src="/img/arrow-back.svg" alt="arrow-back" className='arrow' />
       go back
     </div>
     {character && character.name && (
@@ -55,46 +56,22 @@ export const Character = () => {
               Information
             </div>
             <ul className="character__info-details">
-              <li className='character-block'>
-                <h4>
-                  Gender
-                </h4>
-                <p>
-                  {character.gender}
-                </p>
-              </li>
-              <li className='character-block'>
-                <h4>
-                  Status
-                </h4> 
-                <p>
-                  {character.status}
-                </p>
-              </li>
-              <li className='character-block'>
-                <h4>
-                  Species
-                </h4>
-                <p>
-                  {character.species}
-                </p>
-              </li>
-              <li className='character-block'>
-                <h4>
-                  Origin
-                </h4>
-                <p>
-                  {character.origin.name}
-                </p>
-              </li>
-              <li className='character-block'>
-                <h4>
-                  Type
-                </h4>
-                <p>
-                  {character.type || 'Unknown'}
-                </p>
-              </li>
+              {
+                characteristics.map((char) => {
+                  return (
+                    <li className='character-block' key={char}>
+                      <h4>
+                        {char.charAt(0).toUpperCase() + char.slice(1)}
+                      </h4>
+                      <p>
+                        {
+                          char !== 'origin' ? character[char] : character[char].name
+                        }
+                      </p>
+                    </li>
+                  )
+                })
+              }
             </ul>
           </div>
         </div>
