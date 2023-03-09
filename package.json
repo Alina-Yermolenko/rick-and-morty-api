@@ -2,6 +2,7 @@
   "name": "rick-morty-api",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://alina-yermolenko.github.io/rick-morty",
   "dependencies": {
     "@react-oauth/google": "^0.8.0",
     "@testing-library/jest-dom": "^5.16.5",
