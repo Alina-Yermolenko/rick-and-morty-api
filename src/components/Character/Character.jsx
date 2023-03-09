@@ -1,4 +1,4 @@
-import './Character.css'
+import './Character.scss'
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"

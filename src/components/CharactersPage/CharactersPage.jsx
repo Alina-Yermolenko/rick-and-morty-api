@@ -1,4 +1,4 @@
-import './CharactersPage.css';
+import './CharactersPage.scss';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';

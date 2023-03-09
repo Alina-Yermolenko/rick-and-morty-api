@@ -1,4 +1,4 @@
-import './Pagination.css';
+import './Pagination.scss';
 import { useLocation } from "react-router-dom";
 
 export const Pagination = ({fetchData,inputValue, pages, setCharacters,setPages}) => {

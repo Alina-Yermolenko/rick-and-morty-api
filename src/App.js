@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { CharactersPage } from './components/CharactersPage/CharactersPage.jsx';
 import { Character } from './components/Character/Character';
